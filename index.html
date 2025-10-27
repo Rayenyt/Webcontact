@@ -1,109 +1,234 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة التحكم الاحترافية</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>لوحة تحكم احترافية</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* --- إعداد الخط والخلفية المتدرجة المتحركة --- */
+/* --- خطوط وخلفية ديناميكية خفيفة --- */
 body {
-    margin: 0;
-    font-family: 'Cairo', sans-serif;
-    background: linear-gradient(-45deg, #1abc9c, #3498db, #9b59b6, #e74c3c, #f1c40f);
-    background-size: 400% 400%;
-    animation: gradientBG 30s ease infinite;
-    color: #fff;
-    display: flex;
-    min-height: 100vh;
-    overflow-x: hidden;
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+  background: linear-gradient(-45deg, rgba(26,188,156,0.12), rgba(52,152,219,0.10), rgba(155,89,182,0.10), rgba(231,76,60,0.08));
+  background-size: 400% 400%;
+  animation: gradientBG 30s ease infinite;
+  color: #fff;
+  display: flex;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 @keyframes gradientBG {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
 }
 
-/* --- Sidebar جانبي --- */
-.sidebar {
-    width: 280px;
-    background: rgba(0,0,0,0.9);
-    display: flex;
-    flex-direction: column;
-    padding: 30px 15px;
-    box-shadow: 4px 0 30px rgba(0,0,0,0.7);
-    transition: width 0.3s ease;
+/* Sidebar */
+.sidebar{
+  width: 300px;
+  background: rgba(0,0,0,0.82);
+  display:flex;
+  flex-direction:column;
+  padding:28px 18px;
+  box-shadow: 4px 0 28px rgba(0,0,0,0.65);
+  animation: slideIn .9s ease forwards;
 }
-.sidebar h2 {
-    text-align: center;
-    margin-bottom: 40px;
-    font-size: 2em;
-    text-shadow: 2px 2px 15px #000;
+@keyframes slideIn{ from{opacity:0; transform:translateX(-40px)} to{opacity:1; transform:translateX(0)} }
+.sidebar h2{ text-align:center; margin:0 0 36px 0; font-size:2.1rem; text-shadow: 2px 2px 14px #000 }
+.sidebar a{
+  color:#fff; text-decoration:none; padding:14px 12px; margin:10px 0; border-radius:12px; display:block; font-weight:600;
+  background:transparent; transition: all .32s ease; opacity:0; transform:translateX(-20px); animation: linkAppear .5s forwards;
 }
-.sidebar a {
-    color: #fff;
-    text-decoration: none;
-    padding: 18px 12px;
-    margin: 10px 0;
-    border-radius: 12px;
-    transition: all 0.4s ease;
-    display: block;
-    font-weight: 600;
+@keyframes linkAppear{ to{opacity:1; transform:translateX(0)} }
+.sidebar a:hover{ background: linear-gradient(45deg,#f39c12,#e74c3c); transform:translateX(12px) scale(1.03); box-shadow:0 8px 22px rgba(0,0,0,0.6) }
+
+/* Main */
+.main{ flex:1; padding:44px; overflow-y:auto }
+
+/* Header */
+.header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:36px }
+.header h1{
+  font-size:2.8rem; margin:0; letter-spacing:1px; text-shadow:3px 3px 18px rgba(0,0,0,0.6);
+  opacity:0; transform:translateY(-18px); animation: fadeInUp .9s forwards;
 }
-.sidebar a:hover {
-    background: linear-gradient(45deg, #f39c12, #e74c3c);
-    transform: translateX(12px) scale(1.05);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+@keyframes fadeInUp{ to{opacity:1; transform:translateY(0)} }
+
+/* Icons 3D */
+.header .icons a{ display:inline-block; perspective:1000px; margin-left:14px; text-decoration:none; }
+.header .icons a img{
+  width:60px; height:60px; border-radius:14px; transition: transform .45s cubic-bezier(.2,.9,.2,1), box-shadow .45s;
+  transform-style:preserve-3d; opacity:0; transform:translateY(-18px); animation: fadeInUp .9s forwards; animation-delay:.4s;
+}
+.header .icons a img:hover{
+  transform: rotateY(18deg) rotateX(8deg) scale(1.28);
+  box-shadow: 0 18px 36px rgba(0,0,0,0.6);
+  filter: drop-shadow(0 0 12px #f1c40f);
 }
 
-/* --- Main Content --- */
-.main {
-    flex: 1;
-    padding: 50px;
-    overflow-y: auto;
+/* Link text (shows t.me/...) style */
+.link-text {
+  display:inline-block;
+  font-weight:700;
+  color:#fff;
+  text-decoration:underline;
+  text-underline-offset:6px;
+  cursor:pointer;
+  margin-left:8px;
 }
 
-/* --- Header مع أيقونات ثلاثية الأبعاد --- */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 35px;
+/* Buttons */
+.btn{
+  display:inline-block; margin:18px; padding:16px 40px; font-size:1.12rem; font-weight:700; color:#fff;
+  background: linear-gradient(135deg,#e74c3c,#f1c40f); border:none; border-radius:14px; cursor:pointer;
+  transition: all .32s ease; box-shadow:0 10px 28px rgba(0,0,0,0.55); opacity:0; transform:translateY(14px); animation: fadeInUp .9s forwards; animation-delay:.7s;
 }
-.header h1 {
-    font-size: 3em;
-    text-shadow: 3px 3px 20px #000;
-    letter-spacing: 2px;
+.btn:hover{ transform:scale(1.12) rotate(-2deg); background: linear-gradient(135deg,#3498db,#9b59b6); box-shadow:0 16px 36px rgba(0,0,0,0.7) }
+
+/* Sections */
+.section{
+  margin:62px 0; padding:36px; background: rgba(255,255,255,0.04); border-radius:18px; box-shadow:0 8px 30px rgba(0,0,0,0.45);
+  opacity:0; transform:translateY(40px); transition: all .8s ease;
+}
+.section.visible{ opacity:1; transform:translateY(0) }
+.section h2{ font-size:2.2rem; margin:0 0 12px 0; text-shadow:2px 2px 14px rgba(0,0,0,0.6) }
+.section p{ font-size:1.06rem; line-height:1.7; color:#eef2f3 }
+
+/* Modal */
+.modal{ display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.82); justify-content:center; align-items:center }
+.modal-content{ background: rgba(255,255,255,0.04); padding:30px; border-radius:18px; max-width:560px; text-align:center; box-shadow:0 12px 44px rgba(0,0,0,0.7); animation: pop .45s ease }
+@keyframes pop{ from{transform:scale(.86); opacity:0} to{transform:scale(1); opacity:1} }
+.close{ position:absolute; right:24px; top:18px; font-size:1.4rem; cursor:pointer; color:#fff }
+
+/* Responsive */
+@media (max-width:900px){
+  .sidebar{ width:100%; flex-direction:row; gap:8px; padding:12px }
+  .sidebar h2{ display:none }
+  .sidebar a{ flex:1; padding:10px; margin:6px 4px; font-size:.95rem; border-radius:10px }
+  .main{ padding:22px }
+  .header h1{ font-size:1.6rem }
+  .header .icons a img{ width:46px; height:46px }
+}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <h2>لوحة التحكم</h2>
+  <a href="#services">خدماتنا</a>
+  <a href="#tech">التقنيات</a>
+  <a href="#why">لماذا نحن</a>
+  <a href="#contact">تواصل معنا</a>
+</div>
+
+<!-- Main -->
+<div class="main">
+  <div class="header">
+    <h1>لوحة تحكم تصميم المواقع</h1>
+
+    <!-- أيقونات الهيدر: نص العرض هو t.me/DT_HNACH (بدون https) + onclick لفتح الرابط فعليًا -->
+    <div class="icons">
+      <!-- Telegram: href عرض بدون https لكن onclick يفتح الرابط الآمن -->
+      <a href="t.me/DT_HNACH" onclick="window.open('https://t.me/DT_HNACH','_blank'); return false;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+      </a>
+
+      <!-- Instagram (تركها طبيعية، تظهر باسم المستخدم في المودال) -->
+      <a href="https://www.instagram.com/rayen.zouari.750" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram">
+      </a>
+    </div>
+  </div>
+
+  <p class="description">نوفر لك خدمات احترافية لإنشاء مواقع جذابة وحديثة مع تجربة مستخدم محسّن وتأثيرات متطورة.</p>
+
+  <!-- روابط ظاهرة كنص بدون https: المستخدم طلب الشكل بدون https -->
+  <div style="margin:18px 0;">
+    <span class="link-text" onclick="window.open('https://t.me/DT_HNACH','_blank')">t.me/DT_HNACH</span>
+    <span style="margin-left:18px;" class="link-text" onclick="window.open('https://www.instagram.com/rayen.zouari.750','_blank')">instagram.com/rayen.zouari.750</span>
+  </div>
+
+  <!-- أزرار -->
+  <div>
+    <!-- الأزرار تستعمل onclick لفتح الروابط الفعلية، لكن نص الزر لا يحتوي 'https' -->
+    <button class="btn" onclick="openModal('modalTelegram')">تواصل — t.me/DT_HNACH</button>
+    <button class="btn" onclick="openModal('modalInstagram')">تواصل — instagram.com/rayen.zouari.750</button>
+  </div>
+
+  <!-- Sections -->
+  <div id="services" class="section">
+    <h2>خدمات تصميم المواقع</h2>
+    <p>تصميم واجهات متجاوبة، صفحات هبوط احترافية، متجر إلكتروني، وسرعة تحميل محسّنة. ندمج التأثيرات الحديثة مع تجربة مستخدم بسيطة ومباشرة.</p>
+  </div>
+
+  <div id="tech" class="section">
+    <h2>التقنيات المستخدمة</h2>
+    <p>HTML5, CSS3, JavaScript. إضافة تأثيرات CSS متقدمة، حركات entry/scroll، وأيقونات ثلاثية الأبعاد لتجربة واجهة عالية الجودة.</p>
+  </div>
+
+  <div id="why" class="section">
+    <h2>لماذا تختارنا؟</h2>
+    <p>نهج عملي يركّز على الأداء والتحويل: تصميم جميل، سرعة تحميل، وسهولة التعديل والنشر.</p>
+  </div>
+
+  <div id="contact" class="section">
+    <h2>تواصل معنا</h2>
+    <p>للاستفسار أو طلب عرض سعر تواصل عبر Telegram: <strong>t.me/DT_HNACH</strong> أو عبر Instagram: <strong>instagram.com/rayen.zouari.750</strong>.</p>
+  </div>
+</div>
+
+<!-- Modals -->
+<div id="modalTelegram" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('modalTelegram')">&times;</span>
+    <h2>تواصل على Telegram</h2>
+    <p>اضغط للذهاب إلى الحساب:</p>
+    <!-- نص العرض بدون https -->
+    <a class="btn" href="t.me/DT_HNACH" onclick="window.open('https://t.me/DT_HNACH','_blank'); return false;">t.me/DT_HNACH</a>
+  </div>
+</div>
+
+<div id="modalInstagram" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('modalInstagram')">&times;</span>
+    <h2>تواصل على Instagram</h2>
+    <p>اذهب إلى صفحتنا على انستغرام:</p>
+    <a class="btn" href="https://www.instagram.com/rayen.zouari.750" target="_blank">instagram.com/rayen.zouari.750</a>
+  </div>
+</div>
+
+<script>
+// small helpers & animations
+
+// open / close modals
+function openModal(id){
+  document.getElementById(id).style.display = 'flex';
+}
+function closeModal(id){
+  document.getElementById(id).style.display = 'none';
 }
 
-/* --- أيقونات ثلاثية الأبعاد --- */
-.header .icons a {
-    display: inline-block;
-    perspective: 1000px;
-    margin-left: 15px;
+// hover animation for sections on scroll
+const sections = document.querySelectorAll('.section');
+function checkVisible(){
+  const trigger = window.innerHeight * 0.85;
+  sections.forEach(s=>{
+    const top = s.getBoundingClientRect().top;
+    if(top < trigger) s.classList.add('visible');
+  });
 }
-.header .icons a img {
-    width: 60px;
-    height: 60px;
-    transition: transform 0.5s ease, box-shadow 0.5s ease;
-    transform-style: preserve-3d;
-    border-radius: 15px;
-}
-.header .icons a img:hover {
-    transform: rotateY(20deg) rotateX(10deg) scale(1.3);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.8);
-    filter: drop-shadow(0 0 15px #f1c40f);
-}
+window.addEventListener('scroll', checkVisible);
+window.addEventListener('load', ()=>{
+  // reveal a few initial links with slight stagger
+  const links = document.querySelectorAll('.sidebar a');
+  links.forEach((ln,i)=> ln.style.animationDelay = (0.15 + i*0.06) + 's');
+  checkVisible();
+});
+</script>
 
-/* --- Buttons 3D ديناميكية --- */
-.btn {
-    display: inline-block;
-    margin: 18px;
-    padding: 18px 42px;
-    font-size: 1.3em;
-    font-weight: 700;
-    color: #fff;
-    background: linear-gradient(135deg, #e74c3c, #f1c40f);
+</body>
+</html>    background: linear-gradient(135deg, #e74c3c, #f1c40f);
     border: none;
     border-radius: 16px;
     cursor: pointer;
